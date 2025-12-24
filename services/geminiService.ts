@@ -1,4 +1,3 @@
-
 import { GoogleGenAI } from "@google/genai";
 
 const SYSTEM_INSTRUCTION = `אתה יועץ חינוכי מומחה מטעם אתר "בוחרים בחיים".
@@ -9,7 +8,13 @@ const SYSTEM_INSTRUCTION = `אתה יועץ חינוכי מומחה מטעם א�
 אל תעודד שימוש בשום צורה, גם לא "שימוש אחראי". המסר הוא הימנעות.`;
 
 export async function getGeminiResponse(userPrompt: string, history: { role: 'user' | 'model', parts: { text: string }[] }[] = []) {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const apiKey = process.env.API_KEY;
+  if (!apiKey) {
+    console.error("API_KEY is missing from environment.");
+    return "שירות הייעוץ אינו זמין כרגע (חסר מפתח גישה).";
+  }
+
+  const ai = new GoogleGenAI({ apiKey });
   
   try {
     const response = await ai.models.generateContent({

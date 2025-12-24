@@ -317,8 +317,7 @@ const App: React.FC = () => {
         </button>
       )}
 
-      {/* Floating Feedback Component */}
-      <FeedbackChat />
+     
     </div>
   );
 };

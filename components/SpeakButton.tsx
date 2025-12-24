@@ -12,27 +12,35 @@ const SpeakButton: React.FC<SpeakButtonProps> = ({ text, className = "" }) => {
 
   const handleSpeak = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (isPlaying) return;
+    if (isPlaying) {
+      window.speechSynthesis.cancel();
+      setIsPlaying(false);
+      return;
+    }
     
     setIsPlaying(true);
-    await speakText(text);
-    setIsPlaying(false);
+    const success = await speakText(text);
+    if (success !== undefined) {
+      setIsPlaying(false);
+    }
   };
 
   return (
     <button 
       onClick={handleSpeak}
-      disabled={isPlaying}
-      title="הקרא טקסט"
-      className={`p-2 rounded-full transition-all flex items-center justify-center border border-transparent
+      title={isPlaying ? "עצור הקראה" : "הקרא טקסט"}
+      aria-label={isPlaying ? "עצור הקראה של טקסט זה" : "הקרא טקסט זה בקול"}
+      aria-pressed={isPlaying}
+      className={`p-2 rounded-full transition-all flex items-center justify-center border border-transparent focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:outline-none
         ${isPlaying 
-          ? 'animate-pulse text-indigo-500 bg-white/90' 
-          : 'animate-soft-pulse text-slate-400 hover:text-indigo-600 bg-white/80 hover:bg-white hover:scale-110 shadow-sm border-slate-100'
+          ? 'animate-pulse text-indigo-600 bg-indigo-50' 
+          : 'text-slate-400 hover:text-indigo-600 bg-white/80 hover:bg-white hover:scale-110 shadow-sm border-slate-100'
         } ${className}`}
     >
       {isPlaying ? (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 10h6v4H9z" />
         </svg>
       ) : (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

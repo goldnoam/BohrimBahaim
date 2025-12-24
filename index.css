@@ -8,6 +8,11 @@
     @apply bg-slate-50 text-slate-900;
     font-family: 'Assistant', 'Heebo', sans-serif;
   }
+
+  /* Accessible focus indicators for keyboard navigation */
+  :focus-visible {
+    @apply outline-none ring-2 ring-indigo-500 ring-offset-2;
+  }
 }
 
 .chat-message-user {
@@ -16,4 +21,17 @@
 
 .chat-message-system {
   @apply bg-white text-slate-700 rounded-2xl rounded-tl-none px-4 py-2 shadow-sm border border-slate-100 animate-message-in;
+}
+
+/* Custom scrollbar for better appearance */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
 }

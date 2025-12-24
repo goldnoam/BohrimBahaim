@@ -1,3 +1,4 @@
+
 export interface ResourceLink {
   name: string;
   description: string;
@@ -16,6 +17,12 @@ export interface LegalInfo {
   offense: string;
   punishment: string;
   details: string;
+}
+
+// Added ChatMessage interface to define roles for Gemini API integration
+export interface ChatMessage {
+  role: 'user' | 'model';
+  text: string;
 }
 
 export interface FeedbackMessage {

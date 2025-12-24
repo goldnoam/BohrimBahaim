@@ -1,8 +1,9 @@
+
 {
   "name": "בוחרים בחיים - מניעת סמים ואלכוהול",
   "short_name": "בוחרים בחיים",
   "description": "אתר הסברה למניעת צריכת סמים ואלכוהול",
-  "start_url": "./index.html",
+  "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#4f46e5",

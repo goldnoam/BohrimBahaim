@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ALCOHOL_DAMAGES, DRUG_DAMAGES, DRIVING_DANGERS, LEGAL_INFO, HELP_RESOURCES, ENFORCEMENT_TECH } from './constants';
 import InfoCard from './components/InfoCard';
 import FeedbackChat from './components/FeedbackChat';
@@ -7,6 +7,7 @@ import SpeakButton from './components/SpeakButton';
 
 const App: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
@@ -21,6 +22,27 @@ const App: React.FC = () => {
 
   const heroTitle = "העתיד שלך חשוב מכדי לבזבז אותו על רגע של טעות";
   const heroDescription = "המדריך המלא למניעת שימוש בסמים ואלכוהול בקרב בני נוער ומבוגרים. ידע הוא כוח – בחרו בחיים.";
+
+  // Handle scroll to top visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   return (
     <div className="min-h-screen flex flex-col overflow-x-hidden">
@@ -281,6 +303,19 @@ const App: React.FC = () => {
           <p className="text-[10px] opacity-30">All Rights Reserved. Safety First.</p>
         </div>
       </footer>
+
+      {/* Scroll to Top Button */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          aria-label="חזור למעלה"
+          className="fixed bottom-20 left-4 md:bottom-24 md:left-6 z-50 bg-white text-indigo-600 w-12 h-12 rounded-full shadow-2xl border border-slate-100 flex items-center justify-center hover:bg-indigo-600 hover:text-white transition-all transform hover:scale-110 active:scale-90 focus-visible:ring-4 focus-visible:ring-indigo-300 focus-visible:outline-none animate-in fade-in slide-in-from-bottom-2"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+          </svg>
+        </button>
+      )}
 
       {/* Floating Feedback Component */}
       <FeedbackChat />
